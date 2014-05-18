@@ -19,6 +19,7 @@ module Math.SMT.Yices.Parser (
  ) where
 
 import Math.SMT.Yices.Syntax
+import Control.Applicative ((<*))
 import Control.Monad
 import Data.Maybe
 import Data.Ratio
@@ -28,22 +29,22 @@ import qualified Text.ParserCombinators.Parsec.Token as T
 
 -- | parse a string of yices type format
 parseTypY :: String -> TypY
-parseTypY s = case parse typY "parseTypY" s of Right r  -> r
-                                               Left msg -> error $ show msg
+parseTypY s = case parse (typY <* eof) "parseTypY" s of Right r  -> r
+                                                        Left msg -> error $ show msg
 -- | parse a string of yices expression format
 parseExpY :: String -> ExpY
-parseExpY s = case parse expY "parseExpY" s of Right r -> r
-                                               Left msg -> error $ show msg
+parseExpY s = case parse (expY <* eof) "parseExpY" s of Right r -> r
+                                                        Left msg -> error $ show msg
 
 -- | parse a string of many yices expressions
 parseExpYs :: String -> [ExpY]
-parseExpYs s = case parse expYs "parseExpYs" s of Right r -> r
-                                                  Left msg -> error $ show msg
+parseExpYs s = case parse (expYs <* eof) "parseExpYs" s of Right r -> r
+                                                           Left msg -> error $ show msg
  
 -- | parse a string of yices command format
 parseCmdY :: String -> CmdY
-parseCmdY s = case parse cmdY "parseCmdY" s of Right r -> r
-                                               Left msg -> error $ show msg
+parseCmdY s = case parse (cmdY <*eof) "parseCmdY" s of Right r -> r
+                                                       Left msg -> error $ show msg
 
 
 tp = T.makeTokenParser emptyDef
