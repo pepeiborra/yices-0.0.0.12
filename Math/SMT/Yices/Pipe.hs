@@ -100,7 +100,9 @@ quickCheckY' yPath yOpts cmds = do
          "unknown" : ss -> Unknown (parseExpYs $ unlines $ filter f ss)
          "unsat"   : ss -> UnSat   (map read.words.tail.dropWhile (/=':').head $ ss)
          other          -> InCon   other
-  where f x = not(null x || "unsatisfied assertion ids:" `isPrefixOf` x)
+  where f x = not(null x ||
+                  "unsatisfied assertion ids:" `isPrefixOf` x ||
+                  "cost:" `isPrefixOf` x)
 
 
 stripYicesPrompt line | yprompt `isPrefixOf` line = drop (length yprompt) line
