@@ -93,12 +93,14 @@ quickCheckY' yPath yOpts cmds = do
      (code, out', err) <- readProcessWithExitCode yPath ("-e" : yOpts) (unlines $ map show cmds)
      let out = filter (/= '\r') out'
      when (not $ null err) $ hPutStrLn stderr err
+     hPutStrLn stderr out'
      return $
        case lines out of
-         "sat"     : ss -> Sat     (parseExpYs $ unlines $ filter (not.null) ss)
-         "unknown" : ss -> Unknown (parseExpYs $ unlines $ filter (not.null) ss)
+         "sat"     : ss -> Sat     (parseExpYs $ unlines $ filter f ss)
+         "unknown" : ss -> Unknown (parseExpYs $ unlines $ filter f ss)
          "unsat"   : ss -> UnSat   (map read.words.tail.dropWhile (/=':').head $ ss)
          other          -> InCon   other
+  where f x = not(null x || "unsatisfied assertion ids:" `isPrefixOf` x)
 
 
 stripYicesPrompt line | yprompt `isPrefixOf` line = drop (length yprompt) line
