@@ -14,11 +14,11 @@
  -}
 module Math.SMT.Yices.Syntax ( TypY(..) , ExpY(..) , CmdY(..) ) where
 
-import Data.Char
-import Data.Monoid
+
+
 import Data.List
 import Data.Ratio
-import Text.Show
+
 
 -- | yices types
 data TypY

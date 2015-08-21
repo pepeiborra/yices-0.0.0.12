@@ -1,4 +1,5 @@
 -- vim:sw=2:ts=2:expandtab:autoindent
+{-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE NoMonomorphismRestriction #-}
 
 {- |
@@ -19,9 +20,9 @@ module Math.SMT.Yices.Parser (
  ) where
 
 import Math.SMT.Yices.Syntax
-import Control.Applicative ((<*))
+
 import Control.Monad
-import Data.Maybe
+
 import Data.Ratio
 import Text.ParserCombinators.Parsec
 import Text.ParserCombinators.Parsec.Language
